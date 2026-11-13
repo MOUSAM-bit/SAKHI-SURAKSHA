@@ -27,3 +27,13 @@ An emergency response and personal safety web application designed for rapid SOS
    ```bash
    git clone [https://github.com/MOUSAM-bit/SAKHI-SURAKSHA.git](https://github.com/MOUSAM-bit/SAKHI-SURAKSHA.git)
    cd SAKHI-SURAKSHA
+vercel link 
+https://sakhi-suraksha-olive.vercel.app/
+
+
+
+if vercel is not responding
+
+upload files in vs code and run 
+(npm start) in terminal 
+http://localhost:5001
