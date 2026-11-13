@@ -6,14 +6,22 @@ const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-const CONTACTS_FILE = path.join(__dirname, 'contacts.json');
+
+// Use /tmp directory on Vercel to prevent read-only file system (EROFS) errors
+const CONTACTS_FILE = process.env.VERCEL
+    ? path.join('/tmp', 'contacts.json')
+    : path.join(__dirname, 'contacts.json');
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 function getContacts() {
     if (!fs.existsSync(CONTACTS_FILE)) {
-        fs.writeFileSync(CONTACTS_FILE, JSON.stringify([]));
+        // If file doesn't exist in /tmp, check if local template exists or start empty
+        const initialData = fs.existsSync(path.join(__dirname, 'contacts.json'))
+            ? fs.readFileSync(path.join(__dirname, 'contacts.json'), 'utf8')
+            : '[]';
+        fs.writeFileSync(CONTACTS_FILE, initialData);
     }
     return JSON.parse(fs.readFileSync(CONTACTS_FILE, 'utf8'));
 }
